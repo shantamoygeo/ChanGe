@@ -1,6 +1,6 @@
 function [cross_section_area,discharge,avg_depth,velocity,wetted_perimeter,hydraulic_radius] = crosssection_area(data,varargin)
 
-% Cross sectional area calculation for the cross section of a natural
+% Cross-sectional area calculation for the cross section of a natural
 % stream using numerical integration method.
 
 % DESCRIPTION
