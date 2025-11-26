@@ -1,7 +1,7 @@
 function [Q, V, d, WP, Rh] = change(data, m, S)
 
 % This function calculates several hydraulic and hydrological parameters 
-% for natura channel. This is an updated version with significant 
+% for natural channel. This is an updated version with significant 
 % simplification of the previous version.
 %
 % Guha, S., Singh, A. and Kaushal, R.K., 2020. ChanGe: a MATLAB-based tool 
@@ -35,7 +35,7 @@ function [Q, V, d, WP, Rh] = change(data, m, S)
 % Updated on 25 November 2025
 % Author: Shantamoy Guha
 
-%% Part 1: Assigning X and Y values for the data and creating the cross section
+%% Part 1: Assigning X and Y values for the data and creating the cross-section
 
 X = data(:, 1);
 Y = data(:, 2);
@@ -61,7 +61,7 @@ hold on;
 plot(X(nearest_idx), Y(nearest_idx),'ro','MarkerSize',10,'LineWidth',2); % Marking the nearest point
 
 
-%% Part 4: Horizonal water level
+%% Part 4: Horizontal water level
 y_line = Y(nearest_idx); % Y of selected point
 x_min = min(X);
 x_max = max(X);
@@ -71,7 +71,7 @@ hold on;
 plot([x_min x_max], [y_line y_line], 'b--', 'LineWidth', 1.5);
 
 
-%% Part 5: Finding out the intersection point between the Yline and cross section
+%% Part 5: Finding out the intersection point between the Yline and cross-section
 X_dom = [min(X) max(X)];  % span entire X
 Y_dom = [y_line y_line];  % Y is fixed
 
@@ -83,7 +83,7 @@ Y_cross = Y(idx_within);
 inter_point = horzcat(xi, yi);
 
 
-% Finding the unique coordinate and concatenating to the cross section
+% Finding the unique coordinate and concatenating to the cross-section
 cross = [X_cross Y_cross];
 row_unique = setdiff(inter_point, cross,'rows');
 
@@ -103,7 +103,7 @@ title('Extracted Cross-Section');
 
 %% Calculation for all the hydraulic parameters
 
-% Calculate cross-section area
+% Calculate cross-sectional area
 area_box = (max(X_cross_fin)-min(X_cross_fin))*max(Y_cross_fin);
 area_under_curve = trapz(X_cross_fin, Y_cross_fin);
 A = area_box-area_under_curve;
@@ -123,3 +123,4 @@ Rh = A/WP;
 % Discharge calculation
 V = (1/m)*((Rh)^(2/3))*(S)^0.5;
 Q = A*V;
+
