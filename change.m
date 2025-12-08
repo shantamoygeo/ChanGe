@@ -10,7 +10,7 @@ function [Q, V, d, WP, Rh] = change(data, m, S)
 %
 %   Inputs
 %
-%       Data - Two columns input needed. First column is distance in X axis
+%       Data - Two column input needed. First column is distance in X axis
 %       and the second column is the elevation.
 %
 %       S - Slope, m - Manning's roughness 
@@ -30,7 +30,7 @@ function [Q, V, d, WP, Rh] = change(data, m, S)
 %       data = xlsread('data.xlsx');
 %       m = 0.045;
 %       S = 0.003;
-%       [Q,V,d,WP,Rh] = change(data,m,S);
+%       [Q, V, d, WP, Rh] = change(data, m, S);
 
 % Updated on 25 November 2025
 % Author: Shantamoy Guha
@@ -49,19 +49,20 @@ ylabel('Y');
 title('River Cross-Section');
 
 
-%% Part 2: Selection of a point by user and finding the nearest point
+%% Part 2: Selection of a point and finding the nearest point
 
-disp('Click on a point near the any point at one bank');
-[x_user, y_user] = ginput(1);  % User clicks on figure
+disp('Click on a any point near one bank');
+[x_user, y_user] = ginput(1);  % X and Y for according to clicks on figure
 
-dists = sqrt((X-x_user).^2+(Y-y_user).^2); % Distance from each point on cross section
+dists = sqrt((X - x_user).^2 + (Y - y_user).^2); % Distance from each point on cross section
 [~,nearest_idx]=min(dists);  % Index of nearest point of the click
 
 hold on;
-plot(X(nearest_idx), Y(nearest_idx),'ro','MarkerSize',10,'LineWidth',2); % Marking the nearest point
+plot(X(nearest_idx), Y(nearest_idx), 'ro', 'MarkerSize', 10, 'LineWidth', 2); % Marking the nearest point
 
 
 %% Part 4: Horizontal water level
+
 y_line = Y(nearest_idx); % Y of selected point
 x_min = min(X);
 x_max = max(X);
@@ -71,7 +72,7 @@ hold on;
 plot([x_min x_max], [y_line y_line], 'b--', 'LineWidth', 1.5);
 
 
-%% Part 5: Finding out the intersection point between the Yline and cross-section
+%% Part 5: Finding out the intersection point between the Y-line and cross-section
 X_dom = [min(X) max(X)];  % span entire X
 Y_dom = [y_line y_line];  % Y is fixed
 
@@ -101,7 +102,7 @@ Y_cross_fin = cross_new(:, 2);
 plot(X_cross_fin, Y_cross_fin, 'b-o', 'LineWidth', 1.5, 'MarkerSize', 5);
 title('Extracted Cross-Section');
 
-%% Calculation for all the hydraulic parameters
+%% Part 6: Calculation for all the hydraulic parameters
 
 % Calculate cross-sectional area
 area_box = (max(X_cross_fin)-min(X_cross_fin))*max(Y_cross_fin);
@@ -123,4 +124,3 @@ Rh = A/WP;
 % Discharge calculation
 V = (1/m)*((Rh)^(2/3))*(S)^0.5;
 Q = A*V;
-
